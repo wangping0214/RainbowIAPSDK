@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">五彩时空支付SDK</string>
+    
+    <string name="iap_method_alipay_name">支付宝支付</string>
+    <string name="iap_method_alipay_desc">推荐有支付宝账户的用户使用</string>
+    <string name="iap_method_china_unicom_name">话费支付</string>
+    <string name="iap_method_china_unicom_desc">推荐中国联通沃支付用户使用</string>
+    <string name="iap_method_deposit_name">银行卡支付</string>
+    <string name="iap_method_deposit_desc">推荐储蓄卡和信用卡用户使用</string>
+</resources>
