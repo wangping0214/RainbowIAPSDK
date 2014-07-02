@@ -168,12 +168,11 @@ public class IAPActivity extends Activity
 		//订单号，商户生成
 		payBundle.putString("cpOrderId", _purchaseOrder.getOrderId());
 		//联通分配的商品ID
-		payBundle.putString("productid", _purchaseOrder.getChinaUnicomConsumeCode());
+		payBundle.putString("productid", _purchaseOrder.getChinaUnicomProductId());
 		//联通分配的消费码
-		payBundle.putString("consumeCode", _purchaseOrder.getChinaUnicomProductId());
+		payBundle.putString("consumeCode", _purchaseOrder.getChinaUnicomConsumeCode());
 		//商品描述
 		payBundle.putString("subject", _purchaseOrder.getDescription());
-		
 		woUniPay.payAsDianBoVAC(payBundle, new RequestDelegate() {
 
 			@Override
