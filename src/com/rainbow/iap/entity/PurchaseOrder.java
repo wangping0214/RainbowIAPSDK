@@ -5,6 +5,10 @@ import org.json.JSONObject;
 
 public class PurchaseOrder implements JSONSerializable
 {
+	public static final int RESPONSE_SUCCEED 	= 0;
+	public static final int RESPONSE_FAILED		= 1;
+	
+	private	int		responseCode;
 	private String 	productId;
 	private String 	name;
 	
@@ -22,6 +26,16 @@ public class PurchaseOrder implements JSONSerializable
 	{
 	}
 	
+	public int getResponseCode()
+	{
+		return responseCode;
+	}
+
+	public void setResponseCode(int responseCode)
+	{
+		this.responseCode = responseCode;
+	}
+
 	public String getProductId()
 	{
 		return productId;
@@ -105,6 +119,7 @@ public class PurchaseOrder implements JSONSerializable
 	@Override
 	public JSONObject marshal(JSONObject jsonObj) throws JSONException
 	{
+		jsonObj.put("responseCode", responseCode);
 		jsonObj.put("productId", productId);
 		jsonObj.put("name", name);
 		jsonObj.put("chinaUnicomProductId", chinaUnicomProductId);
@@ -119,6 +134,7 @@ public class PurchaseOrder implements JSONSerializable
 	@Override
 	public JSONObject unmarshal(JSONObject jsonObj) throws JSONException
 	{
+		responseCode = jsonObj.getInt("responseCode");
 		productId = jsonObj.getString("productId");
 		name = jsonObj.getString("name");
 		if (jsonObj.has("chinaUnicomProductId"))

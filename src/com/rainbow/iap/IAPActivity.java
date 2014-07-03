@@ -134,7 +134,7 @@ public class IAPActivity extends Activity
 			public void handleMessage(android.os.Message msg)
 			{
 				_purchaseOrder = (PurchaseOrder) msg.obj;
-				if (_purchaseOrder != null)
+				if (_purchaseOrder != null && _purchaseOrder.getResponseCode() == PurchaseOrder.RESPONSE_SUCCEED)
 				{
 					switch (finalType)
 					{
@@ -151,6 +151,7 @@ public class IAPActivity extends Activity
 				}
 				else
 				{
+					Toast.makeText(IAPActivity.this, "物品: " + _productId + " 不存在", Toast.LENGTH_SHORT).show();
 					Log.w(TAG, "Failed to get product info of " + _productId);
 				}
 			};
