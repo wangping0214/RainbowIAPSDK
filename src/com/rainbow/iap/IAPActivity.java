@@ -290,7 +290,7 @@ public class IAPActivity extends Activity
 		// 商户号 #
 		payInfo.merchantNum = "22294531";
 		// 商户备注
-		payInfo.merchantRemark = "此处填写商户备注，小于200位，非必填";
+		payInfo.merchantRemark = "五彩时空科技有限公司";
 		// 商户业务类型
 		payInfo.bizType = 0;
 		// 人民币156 #固定为156
@@ -300,9 +300,9 @@ public class IAPActivity extends Activity
 		// 用户名
 		payInfo.userName = "username";
 		// 手机号
-		payInfo.mobile = "18688888888";
+		payInfo.mobile = "13911107880";
 		// 邮箱
-		payInfo.email = "im_lilei@163.com";
+		payInfo.email = "7449878@qq.com";
 		// 用户实名
 		payInfo.realName = "逢冉";
 		// 证件号码
