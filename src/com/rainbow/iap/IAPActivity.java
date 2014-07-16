@@ -10,7 +10,6 @@ import java.util.List;
 import com.alipay.android.app.sdk.AliPay;
 import com.rainbow.iap.alipay.Keys;
 import com.rainbow.iap.alipay.Result;
-import com.rainbow.iap.alipay.Rsa;
 import com.rainbow.iap.entity.IAPMethodType;
 import com.rainbow.iap.entity.PurchaseOrder;
 import com.rainbow.iap.net.IAPClient;
@@ -201,32 +200,43 @@ public class IAPActivity extends Activity
 	{
 		try
 		{
-			String orderInfo = getAlipayOrderInfo(_purchaseOrder);
-			//TODO 需要将签名过程放到服务器
-			String sign = Rsa.sign(orderInfo, Keys.PRIVATE);
-			sign = URLEncoder.encode(sign, "UTF-8");
-			orderInfo += "&sign=\"" + sign + "\"&" + "sign_type=\"RSA\"";
-			final String finalOrderInfo = orderInfo;
-			new Thread() {
-				
+			final String orderInfo = getAlipayOrderInfo(_purchaseOrder);
+			IAPClient.getInstance().alipaySign(orderInfo, new Handler() {
 				@Override
-				public void run()
+				public void handleMessage(android.os.Message msg)
 				{
-					AliPay aliPay = new AliPay(IAPActivity.this, _alipayHandler);
-					String result = aliPay.pay(finalOrderInfo);
-					Log.i(TAG, "alipay result=" + result);
-					Message msg = new Message();
-					msg.what = ALIPAY_RESPONSE_CODE;
-					msg.obj = result;
-					_alipayHandler.sendMessage(msg);
+					String signStr = (String) msg.obj;
+					try
+					{
+						signStr = URLEncoder.encode(signStr, "UTF-8");
+					}
+					catch (UnsupportedEncodingException e)
+					{
+						e.printStackTrace();
+					}
+					final String finalOrderInfo = orderInfo + "&sign=\"" + signStr + "\"&" + "sign_type=\"RSA\"";
+					new Thread() {
+						
+						@Override
+						public void run()
+						{
+							AliPay aliPay = new AliPay(IAPActivity.this, _alipayHandler);
+							String result = aliPay.pay(finalOrderInfo);
+							Log.i(TAG, "alipay result=" + result);
+							Message msg = new Message();
+							msg.what = ALIPAY_RESPONSE_CODE;
+							msg.obj = result;
+							_alipayHandler.sendMessage(msg);
+						}
+						
+					}.start();
 				}
-				
-			}.start();
-		} catch (UnsupportedEncodingException e)
+			});
+		}
+		catch (UnsupportedEncodingException e)
 		{
 			e.printStackTrace();
 		}
-		
 	}
 	
 	private String getAlipayOrderInfo(PurchaseOrder purchaseOrder) throws UnsupportedEncodingException
@@ -245,7 +255,7 @@ public class IAPActivity extends Activity
 		sb.append("\"&notify_url=\"");				//服务器异步通知页面
 
 		// 网址需要做URL编码
-		sb.append(URLEncoder.encode("http://http://182.92.65.140/IAPServer/UnionPayIAPService", "UTF-8"));
+		sb.append(URLEncoder.encode("http://www.chaimiyouxi.com/IAPServer/notify_url.jsp", "UTF-8"));
 		sb.append("\"&service=\"mobile.securitypay.pay");	//接口名称，固定值
 		sb.append("\"&_input_charset=\"UTF-8");		//商户网站使用的编码格式，固定值
 		sb.append("\"&return_url=\"");

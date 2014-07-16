@@ -23,6 +23,7 @@ public class IAPClient
 {
 	private static final String TAG = "RainbowIAPSDK";
 	private static final String	IAPServerURL = "http://182.92.65.140/IAPServer/PurchaseOrderService";
+	private static final String AlipaySignURL = "http://www.chaimiyouxi.com/IAPServer/AlipaySignService";
 	private static final IAPClient _instance;
 	
 	static
@@ -83,60 +84,36 @@ public class IAPClient
 		}.start();
 	}
 	
-	public PurchaseOrder getPurchaseOrder(IAPMethodType type, String productId)
+	public void alipaySign(String content, Handler handler)
 	{
-		/*
-		PurchaseOrder order = new PurchaseOrder();
-		order.setProductId(productId);
-		switch (type)
+		final String finalContent = content;
+		final Handler finalHandler = handler;
+		new Thread()
 		{
-		case IAP_METHOD_TYPE_CHINA_UNICOM:
-			order.setName("短代测试物品");
-			order.setChinaUnicomProductId("0000000000001001");
-			order.setChinaUnicomConsumeCode("000000010029");
-			order.setDescription("短代测试物品详细信息");
-			order.setOrderId("00000001" + "0001" + "02" + String.format("%010d", System.currentTimeMillis()/1000));
-			break;
-		case IAP_METHOD_TYPE_ALIPAY:
-			order.setName("支付宝测试物品");
-			order.setPrice(0.01);
-			order.setDescription("支付宝测试物品详细信息");
-			order.setOrderId("00000001" + "0001" + "02" + String.format("%050d", System.currentTimeMillis()));
-			break;
-		case IAP_METHOD_TYPE_UNION_PAY:
-			order.setName("银联测试物品");
-			order.setPrice(0.01);
-			order.setDescription("银联测试物品信息");
-			order.setOrderId("00000001" + "0001" + "02" + String.format("%036d", System.currentTimeMillis()));
-			break;
-		}
-		order.setPurchaseTime(System.currentTimeMillis());
-		return order;
-		*/
-		PurchaseOrderRequest request = new PurchaseOrderRequest(type, productId);
-		JSONObject jsonObj = new JSONObject();
-		try
-		{
-			request.marshal(jsonObj);
-			HttpPost post = new HttpPost(IAPServerURL);
-			StringEntity strEntity = new StringEntity(jsonObj.toString(),"UTF-8");
-			Log.d(TAG, jsonObj.toString());
-			post.setEntity(strEntity);
-			ResponseHandler<String> responseHandler = new BasicResponseHandler();
-			String orderStr = _httpClient.execute(post, responseHandler);
-			PurchaseOrder purchaseOrder = new PurchaseOrder();
-			purchaseOrder.unmarshal(new JSONObject(orderStr));
-			return purchaseOrder;
-		} catch (JSONException e)
-		{
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return null;
+			@Override
+			public void run()
+			{
+				try
+				{
+					HttpPost post = new HttpPost(AlipaySignURL);
+					StringEntity strEntity = new StringEntity(finalContent,"UTF-8");
+					post.setEntity(strEntity);
+					ResponseHandler<String> responseHandler = new BasicResponseHandler();
+					String signStr = _httpClient.execute(post, responseHandler);
+					Log.d(TAG, "AlipaySignStr: " + signStr);
+					Message msg = new Message();
+					msg.obj = signStr;
+					finalHandler.sendMessage(msg);
+				}
+				catch (UnsupportedEncodingException e)
+				{
+					e.printStackTrace();
+				} 
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}.start();
 	}
 }
