@@ -22,6 +22,7 @@ public class Purchase
 		_productId = productId;
 	}
 	
+	/** @return 本次支付的商品ID。*/
 	public String getProductId()
 	{
 		return _productId;
@@ -32,6 +33,7 @@ public class Purchase
 		_orderId = orderId;
 	}
 	
+	/** @return 本次支付的订单ID。*/
 	public String getOrderId()
 	{
 		return _orderId;
@@ -42,6 +44,7 @@ public class Purchase
 		_purchaseTime = purchaseTime;
 	}
 	
+	/** @return 本次支付的时间。*/
 	public long getPurchaseTime()
 	{
 		return _purchaseTime;

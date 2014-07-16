@@ -20,11 +20,17 @@ public class IAPResult
     	_message = message;
     }
     
+    /**
+     * @return true如果支付成功，否则false
+     */
     public boolean isSuccess()
     {
     	return _responseCode == PURCHASE_RESPONSE_RESULT_OK;
     }
     
+    /**
+     * @return 支付结果信息
+     */
     public String getMessage()
     {
     	return _message;
