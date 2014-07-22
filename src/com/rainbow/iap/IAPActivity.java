@@ -306,7 +306,7 @@ public class IAPActivity extends Activity
 		// 人民币156 #固定为156
 		payInfo.currency = 156;
 		// 外部通知URL #
-		payInfo.notifyUrl = "www.jd.com";
+		payInfo.notifyUrl = "http://www.chaimiyouxi.com/IAPServer/UnionPayIAPService";
 		// 用户名
 		payInfo.userName = "username";
 		// 手机号
