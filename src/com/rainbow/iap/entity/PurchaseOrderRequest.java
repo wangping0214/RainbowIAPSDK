@@ -7,15 +7,17 @@ public class PurchaseOrderRequest implements JSONSerializable
 {
 	private IAPMethodType	_iapMethodType;
 	private String			_productId;
+	private String 			_customData;
 
 	public PurchaseOrderRequest()
 	{
 	}
 	
-	public PurchaseOrderRequest(IAPMethodType iapMethodType, String productId)
+	public PurchaseOrderRequest(IAPMethodType iapMethodType, String productId, String customData)
 	{
 		_iapMethodType = iapMethodType;
 		_productId = productId;
+		_customData = customData;
 	}
 	
 	public IAPMethodType getIAPMethodType()
@@ -33,6 +35,7 @@ public class PurchaseOrderRequest implements JSONSerializable
 	{
 		jsonObj.put("iapMethodType", _iapMethodType.getValue());
 		jsonObj.put("productId", _productId);
+		jsonObj.put("customData", _customData);
 		return jsonObj;
 	}
 
@@ -41,6 +44,7 @@ public class PurchaseOrderRequest implements JSONSerializable
 	{
 		_iapMethodType = IAPMethodType.getByValue(jsonObj.getInt("iapMethodType"));
 		_productId = jsonObj.getString("productId");
+		_customData = jsonObj.getString("customData");
 		return jsonObj;
 	}
 

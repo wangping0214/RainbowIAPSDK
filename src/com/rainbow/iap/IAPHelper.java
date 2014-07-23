@@ -20,13 +20,14 @@ public class IAPHelper
 		_context = context;
 	}
 	
-	public void purchase(String productId, int requestCode, OnPurchaseFinishedListener listener)
+	public void purchase(String productId, String customData, int requestCode, OnPurchaseFinishedListener listener)
 	{
 		_requestCode = requestCode;
 		_listener = listener;
 		Intent intent = new Intent(_context, IAPActivity.class);
 		Bundle extraData = new Bundle();
 		extraData.putString("productId", productId);
+		extraData.putString("customData", customData);
 		intent.putExtras(extraData);
 		_context.startActivityForResult(intent, requestCode);
 	}
@@ -43,8 +44,9 @@ public class IAPHelper
 				IAPResult iapResult = new IAPResult(responseCode, message);
 				String productId = extraData.getString("productId");
 				String orderId = extraData.getString("orderId");
+				String customData = extraData.getString("customData");
 				long purchaseTime = extraData.getLong("purchaseTime");
-				Purchase purchase = new Purchase(productId, orderId, purchaseTime);
+				Purchase purchase = new Purchase(productId, orderId, customData, purchaseTime);
 				if (_listener != null)
 				{
 					_listener.onPurchaseFinished(iapResult, purchase);

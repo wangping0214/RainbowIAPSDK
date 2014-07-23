@@ -43,17 +43,18 @@ public class IAPClient
 		_httpClient = AndroidHttpClient.newInstance("RainbowIAP");
 	}
 	
-	public void getPurchaseOrder(IAPMethodType type, String productId, Handler handler)
+	public void getPurchaseOrder(IAPMethodType type, String productId, String customData, Handler handler)
 	{
 		final IAPMethodType finalType = type;
 		final String finalProductId = productId;
+		final String finalCustomData = customData;
 		final Handler finalHandler = handler;
 		new Thread() 
 		{
 			@Override
 			public void run()
 			{
-				PurchaseOrderRequest request = new PurchaseOrderRequest(finalType, finalProductId);
+				PurchaseOrderRequest request = new PurchaseOrderRequest(finalType, finalProductId, finalCustomData);
 				JSONObject jsonObj = new JSONObject();
 				try
 				{

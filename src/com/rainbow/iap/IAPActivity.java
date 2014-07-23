@@ -41,6 +41,7 @@ public class IAPActivity extends Activity
 	private static final int ALIPAY_RESPONSE_CODE	= 2;
 	
 	private String _productId;
+	private String _customData;
 	private PurchaseOrder	_purchaseOrder;
 	private AdapterView.OnItemClickListener	_iapMethodListViewListener = new AdapterView.OnItemClickListener() {
 
@@ -67,6 +68,7 @@ public class IAPActivity extends Activity
 		
 		Bundle extraData = getIntent().getExtras();
 		_productId = extraData.getString("productId");
+		_customData = extraData.getString("customData");
 		_purchaseOrder = null;
 		
 		_alipayHandler = new Handler() {
@@ -128,7 +130,7 @@ public class IAPActivity extends Activity
 	private void purchase(IAPMethodType type)
 	{
 		final IAPMethodType finalType = type;
-		IAPClient.getInstance().getPurchaseOrder(finalType, _productId, new Handler() {
+		IAPClient.getInstance().getPurchaseOrder(finalType, _productId, _customData, new Handler() {
 			@Override
 			public void handleMessage(android.os.Message msg)
 			{
@@ -298,9 +300,9 @@ public class IAPActivity extends Activity
 	{
 		PayInfo payInfo = new PayInfo();
 		// 商户号 #
-		payInfo.merchantNum = "22294531";
+		payInfo.merchantNum = "22968429";
 		// 商户备注
-		payInfo.merchantRemark = "五彩时空科技有限公司";
+		payInfo.merchantRemark = "北京五彩时空科技有限公司 ";
 		// 商户业务类型
 		payInfo.bizType = 0;
 		// 人民币156 #固定为156
@@ -308,7 +310,7 @@ public class IAPActivity extends Activity
 		// 外部通知URL #
 		payInfo.notifyUrl = "http://www.chaimiyouxi.com/IAPServer/UnionPayIAPService";
 		// 用户名
-		payInfo.userName = "username";
+		payInfo.userName = "wcsk";
 		// 手机号
 		payInfo.mobile = "13911107880";
 		// 邮箱
@@ -338,6 +340,7 @@ public class IAPActivity extends Activity
 		extraData.putInt("responseCode", responseCode);
 		extraData.putString("message", message);
 		extraData.putString("productId", _productId);
+		extraData.putString("customData", _customData);
 		extraData.putString("orderId", _purchaseOrder.getOrderId());
 		extraData.putLong("purchaseTime", _purchaseOrder.getPurchaseTime());
 		resultIntent.putExtras(extraData);
