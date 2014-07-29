@@ -342,6 +342,7 @@ public class IAPActivity extends Activity
 		extraData.putString("productId", _productId);
 		extraData.putString("customData", _customData);
 		extraData.putString("orderId", _purchaseOrder.getOrderId());
+		extraData.putDouble("price", _purchaseOrder.getPrice());
 		extraData.putLong("purchaseTime", _purchaseOrder.getPurchaseTime());
 		resultIntent.putExtras(extraData);
 		//¹ºÂòÍê³É£¬·µ»Ø

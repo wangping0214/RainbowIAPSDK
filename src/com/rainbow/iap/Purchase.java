@@ -5,16 +5,19 @@ public class Purchase
 	private String _productId;
 	private String _orderId;
 	private String _customData;
+	private double _price;
 	private long _purchaseTime;
 	
 	public Purchase()
 	{
 	}
 	
-	public Purchase(String productId, String orderId, String customData, long purchaseTime)
+	public Purchase(String productId, String orderId, String customData, double price, long purchaseTime)
 	{
 		setProductId(productId);
 		setOrderId(orderId);
+		setCustomData(customData);
+		setPrice(price);
 		setPurchaseTime(purchaseTime);
 	}
 	
@@ -50,6 +53,16 @@ public class Purchase
 		return _customData;
 	}
 	
+	public double getPrice()
+	{
+		return _price;
+	}
+
+	public void setPrice(double price)
+	{
+		_price = price;
+	}
+
 	public void setPurchaseTime(long purchaseTime)
 	{
 		_purchaseTime = purchaseTime;

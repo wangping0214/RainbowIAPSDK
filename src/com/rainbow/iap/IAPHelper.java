@@ -45,8 +45,9 @@ public class IAPHelper
 				String productId = extraData.getString("productId");
 				String orderId = extraData.getString("orderId");
 				String customData = extraData.getString("customData");
+				double price = extraData.getDouble("price");
 				long purchaseTime = extraData.getLong("purchaseTime");
-				Purchase purchase = new Purchase(productId, orderId, customData, purchaseTime);
+				Purchase purchase = new Purchase(productId, orderId, customData, price, purchaseTime);
 				if (_listener != null)
 				{
 					_listener.onPurchaseFinished(iapResult, purchase);
