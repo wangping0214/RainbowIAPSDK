@@ -310,25 +310,17 @@ public class IAPActivity extends Activity
 		// 外部通知URL #
 		payInfo.notifyUrl = "http://www.chaimiyouxi.com/IAPServer/UnionPayIAPService";
 		// 用户名
-		payInfo.userName = "wcsk";
+		payInfo.userName = "用户名";
 		// 手机号
-		payInfo.mobile = "13911107880";
+		payInfo.mobile = "持卡人联系电话";
 		// 邮箱
-		payInfo.email = "7449878@qq.com";
+		payInfo.email = "邮箱";
 		// 用户实名
-		payInfo.realName = "逢冉";
+		payInfo.realName = "持卡人姓名";
 		// 证件号码
-		payInfo.idNum = "230103198801111111";
+		payInfo.idNum = "持卡人身份证号";
 		// 初始化银行卡信息
-		List<BankCard> bankList = new ArrayList<BankCard>();
-		// 添加储蓄卡
-		BankCard card1 = new BankCard();
-		card1.cardNum = "3563900000050850";	//#
-		card1.cardHolderName = "附件";
-		card1.cardHolderMobile = "13112345678";
-		card1.cardHolderIDNum = "440304198302060077";
-		bankList.add(card1);
-		payInfo.bankcards = bankList;
+		payInfo.bankcards = new ArrayList<BankCard>();
 		
 		return payInfo;
 	}
