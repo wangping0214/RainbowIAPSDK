@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.alipay.android.app.sdk.AliPay;
 import com.rainbow.iap.alipay.Keys;
@@ -89,6 +88,13 @@ public class IAPActivity extends Activity
 		};
 		
 		initIAPMethodListView();
+	}
+	
+	@Override
+	public void onBackPressed()
+	{
+		onPurchaseResponsed(IAPResult.PURCHASE_RESPONSE_RESULT_USER_CANCELED, "用户取消操作");
+		super.onBackPressed();
 	}
 	
 	@Override
@@ -333,9 +339,12 @@ public class IAPActivity extends Activity
 		extraData.putString("message", message);
 		extraData.putString("productId", _productId);
 		extraData.putString("customData", _customData);
-		extraData.putString("orderId", _purchaseOrder.getOrderId());
-		extraData.putDouble("price", _purchaseOrder.getPrice());
-		extraData.putLong("purchaseTime", _purchaseOrder.getPurchaseTime());
+		if (_purchaseOrder != null)
+		{
+			extraData.putString("orderId", _purchaseOrder.getOrderId());
+			extraData.putDouble("price", _purchaseOrder.getPrice());
+			extraData.putLong("purchaseTime", _purchaseOrder.getPurchaseTime());
+		}
 		resultIntent.putExtras(extraData);
 		//购买完成，返回
 		setResult(RESULT_OK, resultIntent);
