@@ -10,6 +10,7 @@ import com.alipay.android.app.sdk.AliPay;
 import com.rainbow.iap.alipay.Keys;
 import com.rainbow.iap.alipay.Result;
 import com.rainbow.iap.entity.IAPMethodType;
+import com.rainbow.iap.entity.IMSIType;
 import com.rainbow.iap.entity.PurchaseOrder;
 import com.rainbow.iap.net.IAPClient;
 import com.unicom.wounipaysms.WoUniPay;
@@ -35,6 +36,11 @@ import android.widget.Toast;
 public class IAPActivity extends Activity
 {
 	private static final String TAG = "RainbowIAP";
+
+	private static final String CHINA_MOBILE_IMSI_PREFIX_1 	= "46000";
+	private static final String CHINA_MOBILE_IMSI_PREFIX_2 	= "46002";
+	private static final String CHINA_UNICOM_IMSI_PREFIX 	= "46001";
+	private static final String CHINA_TELECOM_IMSI_PREFIX	= "46003";
 	
 	private static final int UNION_PAY_REQUEST_CODE = 1;
 	private static final int ALIPAY_RESPONSE_CODE	= 2;
@@ -126,7 +132,7 @@ public class IAPActivity extends Activity
 	
 	private void initIAPMethodListView()
 	{
-		IAPMethodListAdapter listAdapter = new IAPMethodListAdapter(this);
+		IAPMethodListAdapter listAdapter = new IAPMethodListAdapter(this, getImsiType());
 		ListView iapMethodListView = (ListView) findViewById(R.id.iap_method_list_view);
 		iapMethodListView.setAdapter(listAdapter);
 		iapMethodListView.setOnItemClickListener(_iapMethodListViewListener);
@@ -201,8 +207,34 @@ public class IAPActivity extends Activity
 	private String getImsi()
     {
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        Log.d(TAG, "imsi: " + tm.getSubscriberId());
         return tm.getSubscriberId();
     }
+	
+	private IMSIType getImsiType()
+	{
+		String imsiStr = getImsi();
+		if (null == imsiStr)
+		{
+			return IMSIType.IMSI_INVALID;
+		}
+		else if (imsiStr.equals(CHINA_MOBILE_IMSI_PREFIX_1) || imsiStr.equals(CHINA_MOBILE_IMSI_PREFIX_2))
+		{
+			return IMSIType.IMSI_CHINA_MOBILE;
+		}
+		else if (imsiStr.equals(CHINA_UNICOM_IMSI_PREFIX))
+		{
+			return IMSIType.IMSI_CHINA_UNICOM;
+		}
+		else if (imsiStr.equals(CHINA_TELECOM_IMSI_PREFIX))
+		{
+			return IMSIType.IMSI_CHINA_TELECOM;
+		}
+		else
+		{
+			return IMSIType.IMSI_INVALID;
+		}
+	}
 	
 	private void alipayPurchase()
 	{

@@ -136,7 +136,10 @@ public class PurchaseOrder implements JSONSerializable
 	{
 		responseCode = jsonObj.getInt("responseCode");
 		productId = jsonObj.getString("productId");
-		name = jsonObj.getString("name");
+		if (jsonObj.has("name"))
+		{
+			name = jsonObj.getString("name");
+		}
 		if (jsonObj.has("chinaUnicomProductId"))
 		{
 			chinaUnicomProductId = jsonObj.getString("chinaUnicomProductId");
@@ -149,9 +152,18 @@ public class PurchaseOrder implements JSONSerializable
 		{
 			price = jsonObj.getDouble("price");
 		}
-		description = jsonObj.getString("description");
-		orderId = jsonObj.getString("orderId");
-		purchaseTime = jsonObj.getLong("purchaseTime");
+		if (jsonObj.has("description"))
+		{
+			description = jsonObj.getString("description");
+		}
+		if (jsonObj.has("orderId"))
+		{
+			orderId = jsonObj.getString("orderId");
+		}
+		if (jsonObj.has("purchaseTime"))
+		{
+			purchaseTime = jsonObj.getLong("purchaseTime");
+		}
 		return jsonObj;
 	}
 }

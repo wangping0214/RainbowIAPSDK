@@ -29,6 +29,14 @@ public class IAPResult
     }
     
     /**
+     * @return 支付返回码
+     */
+    public int getResponseCode()
+    {
+    	return _responseCode;
+    }
+    
+    /**
      * @return 支付结果信息
      */
     public String getMessage()

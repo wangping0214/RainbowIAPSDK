@@ -1,6 +1,7 @@
 package com.rainbow.iap;
 
 import com.rainbow.iap.entity.IAPMethodType;
+import com.rainbow.iap.entity.IMSIType;
 
 import android.content.Context;
 import android.util.SparseArray;
@@ -17,32 +18,36 @@ public class IAPMethodListAdapter extends BaseAdapter
 	private LayoutInflater			_layoutInflater;
 	private SparseArray<IAPMethod>	_iapMethodList;
 	
-	public IAPMethodListAdapter(Context context)
+	public IAPMethodListAdapter(Context context, IMSIType imsiType)
 	{
 		_context = context;
 		_layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		_iapMethodList = new SparseArray<IAPMethod>();
 		
-		IAPMethod chinaUnicomMethod = new IAPMethod();
-		chinaUnicomMethod.setType(IAPMethodType.IAP_METHOD_TYPE_CHINA_UNICOM);
-		chinaUnicomMethod.setLogoId(R.drawable.china_unicom_logo);
-		chinaUnicomMethod.setNameId(R.string.iap_method_china_unicom_name);
-		chinaUnicomMethod.setDescId(R.string.iap_method_china_unicom_desc);
-		_iapMethodList.append(chinaUnicomMethod.getType().getValue(), chinaUnicomMethod);
+		int index = 0;
+		if (imsiType == IMSIType.IMSI_CHINA_UNICOM)
+		{
+			IAPMethod chinaUnicomMethod = new IAPMethod();
+			chinaUnicomMethod.setType(IAPMethodType.IAP_METHOD_TYPE_CHINA_UNICOM);
+			chinaUnicomMethod.setLogoId(R.drawable.china_unicom_logo);
+			chinaUnicomMethod.setNameId(R.string.iap_method_china_unicom_name);
+			chinaUnicomMethod.setDescId(R.string.iap_method_china_unicom_desc);
+			_iapMethodList.append(/*chinaUnicomMethod.getType().getValue()*/ index ++, chinaUnicomMethod);
+		}
 		
 		IAPMethod alipayMethod = new IAPMethod();
 		alipayMethod.setType(IAPMethodType.IAP_METHOD_TYPE_ALIPAY);
 		alipayMethod.setLogoId(R.drawable.alipay_logo);
 		alipayMethod.setNameId(R.string.iap_method_alipay_name);
 		alipayMethod.setDescId(R.string.iap_method_alipay_desc);
-		_iapMethodList.append(alipayMethod.getType().getValue(), alipayMethod);
+		_iapMethodList.append(/*alipayMethod.getType().getValue()*/ index ++, alipayMethod);
 		
 		IAPMethod unionPayMethod = new IAPMethod();
 		unionPayMethod.setType(IAPMethodType.IAP_METHOD_TYPE_UNION_PAY);
 		unionPayMethod.setLogoId(R.drawable.deposit_logo);
 		unionPayMethod.setNameId(R.string.iap_method_deposit_name);
 		unionPayMethod.setDescId(R.string.iap_method_deposit_desc);
-		_iapMethodList.append(unionPayMethod.getType().getValue(), unionPayMethod);
+		_iapMethodList.append(/*unionPayMethod.getType().getValue()*/ index ++, unionPayMethod);
 	}
 	
 	@Override
