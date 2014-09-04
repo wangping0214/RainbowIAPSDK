@@ -37,10 +37,12 @@ public class IAPActivity extends Activity
 {
 	private static final String TAG = "RainbowIAP";
 
+	/*
 	private static final String CHINA_MOBILE_IMSI_PREFIX_1 	= "46000";
 	private static final String CHINA_MOBILE_IMSI_PREFIX_2 	= "46002";
 	private static final String CHINA_UNICOM_IMSI_PREFIX 	= "46001";
 	private static final String CHINA_TELECOM_IMSI_PREFIX	= "46003";
+	*/
 	
 	private static final int UNION_PAY_REQUEST_CODE = 1;
 	private static final int ALIPAY_RESPONSE_CODE	= 2;
@@ -208,16 +210,20 @@ public class IAPActivity extends Activity
     {
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         Log.d(TAG, "imsi: " + tm.getSubscriberId());
+        Log.d(TAG, tm.getSimOperator());
+        Log.d(TAG, tm.getSimOperatorName());
         return tm.getSubscriberId();
     }
 	
 	private IMSIType getImsiType()
 	{
-		String imsiStr = getImsi();
-		if (null == imsiStr)
+		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		String simOperator = tm.getSimOperator();
+		if (null == simOperator)
 		{
 			return IMSIType.IMSI_INVALID;
 		}
+		/*
 		else if (imsiStr.equals(CHINA_MOBILE_IMSI_PREFIX_1) || imsiStr.equals(CHINA_MOBILE_IMSI_PREFIX_2))
 		{
 			return IMSIType.IMSI_CHINA_MOBILE;
@@ -234,6 +240,8 @@ public class IAPActivity extends Activity
 		{
 			return IMSIType.IMSI_INVALID;
 		}
+		*/
+		return IMSIType.getBySimOperator(simOperator);
 	}
 	
 	private void alipayPurchase()
