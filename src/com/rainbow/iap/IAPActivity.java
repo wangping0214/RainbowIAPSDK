@@ -82,6 +82,7 @@ public class IAPActivity extends Activity
 			@Override
 			public void handleMessage(android.os.Message msg)
 			{
+				Log.d(TAG, (String)msg.obj);
 				Result result = new Result((String) msg.obj);
 				if (result.isSuccess())
 				{

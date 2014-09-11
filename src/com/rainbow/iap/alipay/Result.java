@@ -9,6 +9,8 @@ import android.util.Log;
 
 public class Result
 {
+	private static final String TAG = "RainbowIAP_ALIPAY";
+	
 	private static final Map<String, String> sResultStatus;
 
 	private String mResult;
@@ -89,9 +91,12 @@ public class Result
 		{
 			JSONObject json = string2JSON(result, "&");
 
-			int pos = result.indexOf("&sign_type=");
+			int signTypePos = result.indexOf("&sign_type=");
+			int signPos = result.indexOf("&sign=");
+			int pos = Math.min(signTypePos, signPos);
 			String signContent = result.substring(0, pos);
-
+			Log.d(TAG, signContent);
+			
 			String signType = json.getString("sign_type");
 			signType = signType.replace("\"", "");
 
@@ -105,9 +110,9 @@ public class Result
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			Log.i("Result", "Exception =" + e);
+			Log.i(TAG, "Exception =" + e);
 		}
-		Log.i("Result", "checkSign =" + retVal);
+		Log.i(TAG, "checkSign =" + retVal);
 		return retVal;
 	}
 
