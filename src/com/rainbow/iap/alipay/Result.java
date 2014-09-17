@@ -75,7 +75,10 @@ public class Result
 			{
 				_message = "ÆäËû´íÎó";
 			}
-			//_memo = getContent(src, "memo=", ";result");
+			if (!"9000".equals(_resultStatus))
+			{
+				return;
+			}
 			String result = getContent(src, "result=", null);
 			_isSignOk = checkSign(result);
 		} catch (Exception e)
