@@ -47,6 +47,7 @@ public class IAPActivity extends Activity
 	private static final int UNION_PAY_REQUEST_CODE = 1;
 	private static final int ALIPAY_RESPONSE_CODE	= 2;
 	
+	private boolean _isPurchasing;
 	private String _productId;
 	private String _customData;
 	private PurchaseOrder	_purchaseOrder;
@@ -56,6 +57,11 @@ public class IAPActivity extends Activity
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id)
 		{
+			if (_isPurchasing)
+			{
+				return;
+			}
+			_isPurchasing = true;
 			ListView iapMethodListView = (ListView) parent;
 			IAPMethodListAdapter listAdapter = (IAPMethodListAdapter) iapMethodListView.getAdapter();
 			IAPMethod method = (IAPMethod) listAdapter.getItem(position);
@@ -73,6 +79,7 @@ public class IAPActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_iap);
 		
+		_isPurchasing = false;
 		Bundle extraData = getIntent().getExtras();
 		_productId = extraData.getString("productId");
 		_customData = extraData.getString("customData");
@@ -374,6 +381,7 @@ public class IAPActivity extends Activity
 	
 	private void onPurchaseResponsed(int responseCode, String message)
 	{
+		_isPurchasing = false;
 		Intent resultIntent = new Intent();
 		Bundle extraData = new Bundle();
 		extraData.putInt("responseCode", responseCode);
