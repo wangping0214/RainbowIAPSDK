@@ -71,7 +71,8 @@ public class IAPActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_iap);
+		//setContentView(R.layout.activity_iap);
+		setContentView(getResources().getIdentifier("activity_iap", "layout", getPackageName()));
 		
 		Bundle extraData = getIntent().getExtras();
 		_productId = extraData.getString("productId");
@@ -136,7 +137,7 @@ public class IAPActivity extends Activity
 	private void initIAPMethodListView()
 	{
 		IAPMethodListAdapter listAdapter = new IAPMethodListAdapter(this, getImsiType());
-		ListView iapMethodListView = (ListView) findViewById(R.id.iap_method_list_view);
+		ListView iapMethodListView = (ListView) findViewById(this.getResources().getIdentifier("iap_method_list_view", "id", this.getPackageName()));
 		iapMethodListView.setAdapter(listAdapter);
 		iapMethodListView.setOnItemClickListener(_iapMethodListViewListener);
 	}
