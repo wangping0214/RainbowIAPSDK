@@ -118,25 +118,32 @@ public class IAPActivity extends Activity
 	{
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (requestCode == UNION_PAY_REQUEST_CODE && data != null)
+		if (requestCode == UNION_PAY_REQUEST_CODE)
 		{
-			Bundle responseResult = data.getExtras();
+			if (resultCode == RESULT_OK && data != null)
+			{
+				Bundle responseResult = data.getExtras();
 
-			int responseCode = responseResult.getInt(WYPay.RESPONSE_CODE, -1);
-			String responseMessage = responseResult.getString(WYPay.RESPONSE_MESSAGE);
-			String msg = null;
-			if (responseCode == WYPay.RESPONSE_SUCCESS)
-			{
-				msg = "支付成功";
-				onPurchaseResponsed(IAPResult.PURCHASE_RESPONSE_RESULT_OK, msg);
+				int responseCode = responseResult.getInt(WYPay.RESPONSE_CODE, -1);
+				String responseMessage = responseResult.getString(WYPay.RESPONSE_MESSAGE);
+				String msg = null;
+				if (responseCode == WYPay.RESPONSE_SUCCESS)
+				{
+					msg = "支付成功";
+					onPurchaseResponsed(IAPResult.PURCHASE_RESPONSE_RESULT_OK, msg);
+				}
+				else
+				{
+					msg = "支付失败";
+					onPurchaseResponsed(IAPResult.PURCHASE_RESPONSE_RESULT_ERROR, msg);
+				}
+				msg += "，结果信息：" + responseMessage;
+				Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 			}
-			else
+			else if (resultCode == RESULT_CANCELED)
 			{
-				msg = "支付失败";
-				onPurchaseResponsed(IAPResult.PURCHASE_RESPONSE_RESULT_ERROR, msg);
+				onPurchaseResponsed(IAPResult.PURCHASE_RESPONSE_RESULT_USER_CANCELED, "用户取消操作");
 			}
-			msg += "，结果信息：" + responseMessage;
-			Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 		}
 	}
 	
